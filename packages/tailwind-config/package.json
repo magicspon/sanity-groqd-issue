@@ -1,0 +1,30 @@
+{
+	"name": "@spon/tailwind-config",
+	"private": true,
+	"version": "1.0.0",
+	"main": "tailwind.config.ts",
+	"types": "tailwind.config.ts",
+	"type": "module",
+	"license": "MIT",
+	"files": [
+		"index.js",
+		"postcss.js"
+	],
+	"scripts": {
+		"lint": "eslint . --max-warnings 0 --fix",
+		"typecheck": "tsc --noEmit",
+		"clean": "rm -rf *.tsbuildinfo node_modules"
+	},
+	"devDependencies": {
+		"@spon/eslint-config": "*",
+		"@spon/typescript-config": "*",
+		"@spon/utils": "*",
+		"@tailwindcss/container-queries": "^0.1.1",
+		"@themosaad/tailwindcss-capsize": "^1.0.0",
+		"autoprefixer": "^10.4.21",
+		"colorjs.io": "^0.5.2",
+		"postcss": "^8.5.4",
+		"tailwindcss": "^4.1.8",
+		"tailwindcss-animate": "^1.0.7"
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "@spon/cms",
+	"private": true,
+	"version": "1.0.0",
+	"main": "package.json",
+	"license": "UNLICENSED",
+	"scripts": {
+		"dev": "sanity dev",
+		"start": "sanity start",
+		"prebuild": "npm run extract-types; npm run typegen",
+		"build": "sanity build",
+		"deploy": "sanity deploy",
+		"typegen": "sanity typegen generate",
+		"extract-types": "sanity schema extract --enforce-required-fields",
+		"lint": "eslint . --max-warnings 0 --fix",
+		"typecheck": "tsc --noEmit",
+		"clean": "rm -rf *.tsbuildinfo node_modules"
+	},
+	"keywords": [
+		"sanity"
+	],
+	"dependencies": {
+		"@focus-reactive/sanity-plugin-inline-svg-input": "^1.1.0",
+		"@sanity/assist": "^4.2.0",
+		"@sanity/code-input": "^5.1.2",
+		"@sanity/icons": "^3.7.0",
+		"@sanity/vision": "^3.91.0",
+		"date-fns": "^4.1.0",
+		"groqd": "^1.7.1",
+		"groqd-playground": "^0.0.20",
+		"pluralize-esm": "^9.0.5",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"react-is": "^19.1.0",
+		"rxjs": "^7.8.2",
+		"sanity": "^3.91.0",
+		"sanity-plugin-asset-source-unsplash": "^3.0.3",
+		"styled-components": "^6.1.18",
+		"zod": "^3.25.55"
+	},
+	"devDependencies": {
+		"@sanity/eslint-config-studio": "^5.0.2",
+		"@types/react": "^18.3.23",
+		"eslint": "^9.28.0",
+		"prettier": "^3.5.3",
+		"typescript": "^5.8.3"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"extends": "@spon/typescript-config/react.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"react": ["./node_modules/@types/react"],
+			"~/*": ["./src/*"]
+		}
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.cts",
+		"**/*.ctsx",
+		"**/*.mts",
+		"**/*.mtsx",
+		"**/*.js",
+		"**/*.jsx",
+		"**/*.cjs",
+		"**/*.cjsx",
+		"**/*.mjs",
+		"**/*.mjsx"
+	]
+}

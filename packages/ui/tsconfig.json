@@ -1,0 +1,11 @@
+{
+	"extends": ["@spon/typescript-config/react.json"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@spon/ui/*": ["../../packages/ui/src/*"]
+		}
+	},
+	"include": ["**/*.ts", "**/*.tsx", "**/*.js", ".storybook/**/*"],
+	"exclude": ["node_modules", "dist", "storybook-static"]
+}

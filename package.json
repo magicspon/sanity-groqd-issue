@@ -1,0 +1,62 @@
+{
+	"version": "0.0.0",
+	"name": "spon",
+	"private": true,
+	"type": "module",
+	"author": {
+		"name": "David Stockley",
+		"email": "dave@spon.io",
+		"url": "https://spon.io"
+	},
+	"scripts": {
+		"build": "turbo build --filter=@spon/web",
+		"analyze": "ANALYZE=true turbo build --filter=@spon/web",
+		"start": "turbo start --filter=@spon/web",
+		"dev": "turbo dev",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"lint": "turbo lint",
+		"typecheck": "turbo typecheck",
+		"clean": "turbo clean; rm -rf node_modules",
+		"new:component": "turbo gen component",
+		"new:fn": "turbo gen fn",
+		"new:hook": "turbo gen hook",
+		"new:context": "turbo gen context",
+		"prepare": "husky",
+		"test": "vitest",
+		"test:ui": "vitest --ui",
+		"test:run": "vitest run --passWithNoTests",
+		"e2e:ci": "CI='true' npm run e2e:run",
+		"e2e:ui": "turbo e2e:ui",
+		"e2e:run": "turbo e2e:run"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"@spon/eslint-config": "*",
+		"@spon/typescript-config": "*",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/jest-dom": "^6.6.3",
+		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
+		"@turbo/gen": "^2.5.4",
+		"@types/lint-staged": "^13.3.0",
+		"@vitest/ui": "^3.2.2",
+		"commitlint": "^19.8.1",
+		"eslint": "^9.28.0",
+		"husky": "^9.1.7",
+		"jsdom": "^26.1.0",
+		"lint-staged": "^16.1.0",
+		"prettier": "^3.5.3",
+		"prettier-plugin-tailwindcss": "^0.6.12",
+		"turbo": "^2.5.4",
+		"typescript": "^5.8.3",
+		"vitest": "^3.2.2"
+	},
+	"engines": {
+		"node": ">=22"
+	},
+	"packageManager": "npm@11.4.1",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
+}
