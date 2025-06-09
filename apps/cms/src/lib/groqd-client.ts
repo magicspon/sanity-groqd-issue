@@ -32,4 +32,4 @@ export type SchemaConfig = {
 	referenceSymbol: typeof SanityTypes.internalGroqTypeReferenceTo
 }
 
-export const q = createGroqBuilder<SchemaConfig>({})
+export const q = createGroqBuilder<SchemaConfig>()

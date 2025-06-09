@@ -12,6 +12,7 @@ export const letters = defineType({
 			name: 'value',
 			type: 'string',
 			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			type: 'label',

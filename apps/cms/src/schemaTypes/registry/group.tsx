@@ -21,6 +21,7 @@ function createOfDepth(
 		}
 
 		const level = MAX - depth + 1
+		console.log({ level })
 		// Create nested group member
 		const nestedGroupMember = defineArrayMember({
 			type: 'object',
@@ -36,6 +37,7 @@ function createOfDepth(
 					name: 'group',
 					type: 'array',
 					of: runFn(depth - 1, of),
+					group: 'content',
 				}),
 			],
 		})

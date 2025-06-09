@@ -366,7 +366,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "label": {
           "type": "objectAttribute",
@@ -633,13 +633,6 @@
               }
             },
             "dereferencesTo": "page"
-          },
-          "optional": true
-        },
-        "value": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
           },
           "optional": true
         },

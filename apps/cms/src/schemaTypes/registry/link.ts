@@ -122,11 +122,6 @@ export const link = defineType({
 		email,
 		refererence,
 		defineField({
-			name: 'value',
-			type: 'text',
-			group: 'content',
-		}),
-		defineField({
 			type: 'label',
 			name: 'label',
 			group: 'options',
