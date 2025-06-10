@@ -11,7 +11,7 @@ const { Page, generateMetadata } = createPage({
 		const { fetcher } = await createSanityFetcher()
 		const query = q.star
 			.filterByType('page')
-			.slice(0, 1)
+			.slice(2, 3)
 			.project((sub) => ({
 				title: z.string(),
 				slug: ['slug.current', z.string()],

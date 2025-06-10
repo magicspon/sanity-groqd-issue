@@ -1,5 +1,9 @@
 import { createClient } from '@sanity/client'
-import { createGroqBuilder, makeSafeQueryRunner } from 'groqd'
+import {
+	createGroqBuilder,
+	createGroqBuilderWithZod,
+	makeSafeQueryRunner,
+} from 'groqd'
 import type * as SanityTypes from '../../sanity.types.ts'
 import { PROJECT_ID, READ_TOKEN } from './env'
 
@@ -32,4 +36,4 @@ export type SchemaConfig = {
 	referenceSymbol: typeof SanityTypes.internalGroqTypeReferenceTo
 }
 
-export const q = createGroqBuilder<SchemaConfig>()
+export const q = createGroqBuilderWithZod<SchemaConfig>()

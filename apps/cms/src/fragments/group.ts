@@ -5,158 +5,117 @@ import { lettersFragment } from './letters'
 import { linkFragment } from './link'
 import { markdownFragment } from './markdown'
 
-export const groupFragment = q.fragment<Group>().project((root) => ({
-	...root.conditionalByType(
-		{
-			letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
-			markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
-			asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
-			link: (q) => q.project({ ...linkFragment, _key: z.string() }),
-			// level 1
-			group: (group1) =>
-				group1.project({
-					_key: z.string(),
-					_type: z.literal('group').nullable(),
-					group: group1
-						.field('group[]')
-						.project((project1) => ({
-							...project1.conditionalByType({
-								letters: (q) =>
-									q.project({ ...lettersFragment, _key: z.string() }),
-								markdown: (q) =>
-									q.project({ ...markdownFragment, _key: z.string() }),
-								asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
-								link: (q) => q.project({ ...linkFragment, _key: z.string() }),
-								group: (group2) =>
-									group2.project({
-										_type: z.literal('group').nullable(),
-										_key: z.string(),
-										group: group2
-											.field('group[]')
-											.project((project2) => ({
-												...project2.conditionalByType({
-													letters: (q) =>
-														q.project({ ...lettersFragment, _key: z.string() }),
-													markdown: (q) =>
-														q.project({
-															...markdownFragment,
-															_key: z.string(),
-														}),
-													asset: (q) =>
-														q.project({ ...assetFragment, _key: z.string() }),
-													link: (q) =>
-														q.project({ ...linkFragment, _key: z.string() }),
-													group: (group3) => {
-														return group3.project({
-															_type: z.literal('group').nullable(),
-															_key: z.string(),
-															group: group3
-																.field('group[]')
-																.project((project3) => ({
-																	...project3.conditionalByType({
-																		letters: (q) =>
-																			q.project({
-																				...lettersFragment,
-																				_key: z.string(),
-																			}),
-																		markdown: (q) =>
-																			q.project({
-																				...markdownFragment,
-																				_key: z.string(),
-																			}),
-																		asset: (q) =>
-																			q.project({
-																				...assetFragment,
-																				_key: z.string(),
-																			}),
-																		link: (q) =>
-																			q.project({
-																				...linkFragment,
-																				_key: z.string(),
-																			}),
-																		// "Parameter 'group4' implicitly has an 'any' type."
-																		group: (group4) =>
-																			group4.project({
-																				_key: z.string(),
-																				_type: z.literal('group').nullable(),
-																				group: group4
-																					.field('group[]')
-																					.project((project4) => ({
-																						...project4.conditionalByType({
-																							letters: (q) =>
-																								q.project({
-																									...lettersFragment,
-																									_key: z.string(),
-																								}),
-																							markdown: (q) =>
-																								q.project({
-																									...markdownFragment,
-																									_key: z.string(),
-																								}),
-																							asset: (q) =>
-																								q.project({
-																									...assetFragment,
-																									_key: z.string(),
-																								}),
-																							link: (q) =>
-																								q.project({
-																									...linkFragment,
-																									_key: z.string(),
-																								}),
-																							group: (group5) =>
-																								group5.project({
-																									_key: z.string(),
-																									_type: z
-																										.literal('group')
-																										.nullable(),
-																									group: group5
-																										.field('group[]')
-																										.project((project5) => ({
-																											...project5.conditionalByType(
-																												{
-																													letters: (q) =>
-																														q.project({
-																															...lettersFragment,
-																															_key: z.string(),
-																														}),
-																													markdown: (q) =>
-																														q.project({
-																															...markdownFragment,
-																															_key: z.string(),
-																														}),
-																													asset: (q) =>
-																														q.project({
-																															...assetFragment,
-																															_key: z.string(),
-																														}),
-																													link: (q) =>
-																														q.project({
-																															...linkFragment,
-																															_key: z.string(),
-																														}),
-																												},
-																											),
-																										}))
-																										.nullable(),
-																								}),
-																						}),
-																					}))
-																					.nullable(),
-																			}),
-																	}),
-																}))
-																.nullable(),
-														})
-													},
-												}),
-											}))
-											.nullable(true),
-									}),
-							}),
-						}))
-						.nullable(true),
+// Utility type to extract the group type at a specific depth
+type GetTypeAtDepth<
+	T,
+	Depth extends number,
+	CurrentDepth extends number[] = [],
+> = CurrentDepth['length'] extends Depth
+	? T
+	: T extends readonly (infer U)[]
+		? U extends { group?: infer GroupType }
+			? GroupType extends readonly (infer GroupItem)[]
+				? GetTypeAtDepth<GroupItem[], Depth, [...CurrentDepth, 0]>
+				: never
+			: never
+		: never
+
+type DepthOne = GetTypeAtDepth<Group, 1> // The group property at depth 1
+type DepthTwo = GetTypeAtDepth<Group, 2> // The group property at depth 2
+type DepthThree = GetTypeAtDepth<Group, 3> // The group property at depth 3
+type DepthFour = GetTypeAtDepth<Group, 4> // The group property at depth 4
+type DepthFive = GetTypeAtDepth<Group, 5> // The final group type at depth 5
+
+const d5 = q.fragment<DepthFive>().project((root) => ({
+	...root.conditionalByType({
+		letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
+		markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
+		asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
+		link: (q) => q.project({ ...linkFragment, _key: z.string() }),
+	}),
+}))
+
+const d4 = q.fragment<DepthFour>().project((root) => ({
+	...root.conditionalByType({
+		letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
+		markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
+		asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
+		link: (q) => q.project({ ...linkFragment, _key: z.string() }),
+		group: (q) =>
+			q.project({
+				_key: z.string(),
+				_type: z.literal('group').nullable(),
+				group: q.field('group[]').project({ ...d5 }),
+			}),
+	}),
+}))
+
+const d3 = q.fragment<DepthThree>().project((root) => ({
+	...root.conditionalByType({
+		letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
+		markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
+		asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
+		link: (q) => q.project({ ...linkFragment, _key: z.string() }),
+		group: (q) =>
+			q.project({
+				_key: z.string(),
+				_type: z.literal('group').nullable(),
+				group: q.field('group[]').project({ ...d4 }),
+			}),
+	}),
+}))
+
+const d2 = q.fragment<DepthTwo>().project((root) => ({
+	...root.conditionalByType({
+		letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
+		markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
+		asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
+		link: (q) => q.project({ ...linkFragment, _key: z.string() }),
+		group: (q) =>
+			q.project({
+				_key: z.string(),
+				_type: z.literal('group').nullable(),
+				group: q.field('group[]').project({
+					...d3,
 				}),
-		},
-		{ isExhaustive: false },
-	),
+			}),
+	}),
+}))
+
+const d1 = q.fragment<DepthOne>().project((root) => ({
+	...root.conditionalByType({
+		letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
+		markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
+		asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
+		link: (q) => q.project({ ...linkFragment, _key: z.string() }),
+		group: (q) =>
+			q.project({
+				_key: z.string(),
+				_type: z.literal('group').nullable(),
+				group: q.field('group[]').project({
+					...d2,
+				}),
+			}),
+	}),
+}))
+
+export const groupFragment = q.fragment<Group>().project((root) => ({
+	...root.conditionalByType({
+		letters: (q) => q.project({ ...lettersFragment, _key: z.string() }),
+		markdown: (q) => q.project({ ...markdownFragment, _key: z.string() }),
+		asset: (q) => q.project({ ...assetFragment, _key: z.string() }),
+		link: (q) => q.project({ ...linkFragment, _key: z.string() }),
+		// level 1
+		group: (group1) =>
+			group1.project({
+				_key: z.string(),
+				_type: z.literal('group').nullable(),
+				group: group1
+					.field('group[]')
+					.project({
+						...d1,
+					})
+					.nullable(true),
+			}),
+	}),
 }))
