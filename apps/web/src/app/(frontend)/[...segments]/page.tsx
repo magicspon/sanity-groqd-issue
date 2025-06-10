@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
+import { z } from 'zod'
 import { pageFragment } from '@spon/cms/src/fragments/page.fragment'
 import { q } from '@spon/cms/src/lib/groqd-client'
 import { getFirstOrNull } from '@spon/utils/getFirstOrNull'
@@ -7,8 +8,18 @@ import { createPage } from '~/utils/createPage'
 import { createSanityFetcher } from '~/utils/createSanityFetcher'
 
 const { Page, generateMetadata } = createPage({
-	loader: async () => {
+	params: z.object({
+		segments: z.array(z.string()),
+	}),
+	loader: async ({ params }) => {
 		const { fetcher } = await createSanityFetcher()
+		const uri = params.segments.join('/')
+		const [language, slug] = params.segments
+
+		if (!language || !slug) {
+			notFound()
+		}
+
 		const query = q
 			.parameters<{ slug: string; language: string }>()
 			.star.filterByType('page')
@@ -18,8 +29,8 @@ const { Page, generateMetadata } = createPage({
 			.project({ ...pageFragment })
 
 		const response = await fetcher(query, {
-			next: { tags: ['home'] },
-			parameters: { slug: 'vuse-reload', language: 'en' },
+			next: { tags: [uri] },
+			parameters: { slug, language },
 		})
 
 		const data = getFirstOrNull(response)
@@ -39,8 +50,11 @@ const { Page, generateMetadata } = createPage({
 
 	component: async ({ data }) => {
 		console.log(data)
-
-		return <pre>{JSON.stringify(data, null, 2)}</pre>
+		return (
+			<>
+				<pre>{JSON.stringify(data, null, 2)}</pre>
+			</>
+		)
 	},
 })
 

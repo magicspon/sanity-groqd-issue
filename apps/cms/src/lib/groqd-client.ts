@@ -1,9 +1,5 @@
 import { createClient } from '@sanity/client'
-import {
-	createGroqBuilder,
-	createGroqBuilderWithZod,
-	makeSafeQueryRunner,
-} from 'groqd'
+import { createGroqBuilder, makeSafeQueryRunner } from 'groqd'
 import type * as SanityTypes from '../../sanity.types.ts'
 import { PROJECT_ID, READ_TOKEN } from './env'
 
@@ -19,9 +15,15 @@ export const sanityClient = createClient({
 	stega: { studioUrl: '/studio' },
 })
 
-export const runQuery = makeSafeQueryRunner((query) =>
-	sanityClient.fetch(query),
-)
+export const runQuery = makeSafeQueryRunner((query, options) => {
+	const { parameters, ...opts } = options
+	console.log({ parameters })
+	return sanityClient.fetch(
+		query,
+		parameters ? { ...parameters } : undefined,
+		opts,
+	)
+})
 
 export const runDraftQuery = makeSafeQueryRunner(
 	(query, params: Record<string, unknown> = {}) =>
@@ -36,4 +38,4 @@ export type SchemaConfig = {
 	referenceSymbol: typeof SanityTypes.internalGroqTypeReferenceTo
 }
 
-export const q = createGroqBuilderWithZod<SchemaConfig>()
+export const q = createGroqBuilder<SchemaConfig>()

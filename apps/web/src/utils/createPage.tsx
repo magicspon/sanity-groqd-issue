@@ -81,7 +81,6 @@ export const createPage = <
 	} = props
 
 	// We don't really care about the types here since it's internal
-
 	async function Page(props: any) {
 		const params = await parseParams(props.params, paramsSchema)
 		const searchParams = await parseParams(

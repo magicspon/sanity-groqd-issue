@@ -10,7 +10,7 @@ import { letters } from './registry/letters'
 import { link } from './registry/link'
 import { markdown } from './registry/markdown'
 import { meta } from './registry/meta'
-import { prose } from './registry/prose'
+import { prose, richText } from './registry/prose'
 // import { meta } from './registry/meta'
 import { reference } from './registry/reference'
 import { slug } from './registry/slug'
@@ -35,6 +35,7 @@ export const schemaTypes = [
 	label,
 	meta,
 	prose,
+	richText,
 	link,
 	code,
 	markdown,

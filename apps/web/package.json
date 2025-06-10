@@ -2,6 +2,7 @@
 	"name": "@spon/web",
 	"version": "1.0.0",
 	"description": "A blank template to get started with sanity",
+	"type": "module",
 	"scripts": {
 		"build": "next build",
 		"dev": "next dev",

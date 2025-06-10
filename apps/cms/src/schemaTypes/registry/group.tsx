@@ -21,7 +21,6 @@ export function createOfDepth(
 		}
 
 		const level = MAX - depth + 1
-		console.log({ level })
 		// Create nested group member
 		const nestedGroupMember = defineArrayMember({
 			type: 'object',
