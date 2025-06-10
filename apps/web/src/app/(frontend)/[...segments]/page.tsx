@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { pageFragment } from '@spon/cms/src/fragments/page.fragment'
 import { q } from '@spon/cms/src/lib/groqd-client'
 import { getFirstOrNull } from '@spon/utils/getFirstOrNull'
+import { ComponentTree } from '~/components/ComponentTree'
 import { createPage } from '~/utils/createPage'
 import { createSanityFetcher } from '~/utils/createSanityFetcher'
 
@@ -13,13 +14,15 @@ const { Page, generateMetadata } = createPage({
 	}),
 	loader: async ({ params }) => {
 		const { fetcher } = await createSanityFetcher()
-		const uri = params.segments.join('/')
-		const [language, slug] = params.segments
+		const [language, slug] = params?.segments ?? []
+
+		console.log(params)
 
 		if (!language || !slug) {
 			notFound()
 		}
 
+		const uri = params.segments.join('/')
 		const query = q
 			.parameters<{ slug: string; language: string }>()
 			.star.filterByType('page')
@@ -52,7 +55,8 @@ const { Page, generateMetadata } = createPage({
 		console.log(data)
 		return (
 			<>
-				<pre>{JSON.stringify(data, null, 2)}</pre>
+				{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+				{data.blocks && <ComponentTree blocks={data.blocks} />}
 			</>
 		)
 	},

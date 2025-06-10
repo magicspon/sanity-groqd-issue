@@ -1,7 +1,12 @@
 // https://saas-ui.dev/blog/nextjs-create-page-helper-with-loader-pattern
 // source: https://gist.github.com/magicspon/c1647cf91909808be0a1eed5448bb56d
+// updated by @magicspon
 import type { Metadata, ResolvingMetadata } from 'next'
+import { unstable_cache as cache } from 'next/cache'
+import { draftMode } from 'next/headers'
 import type { AnyZodObject, z } from 'zod'
+
+const DEFAULT_REVALIDATE_TIME = 60 * 60 * 24 // 1 DAY
 
 type InferParams<Params> = Params extends readonly string[]
 	? Record<Params[number], string>
@@ -12,26 +17,58 @@ type InferParams<Params> = Params extends readonly string[]
 type LoaderFn<
 	Params extends readonly string[] | AnyZodObject,
 	SearchParams extends readonly string[] | AnyZodObject,
+	DraftMode,
 > = (args: {
 	params: InferParams<Params>
 	searchParams: InferParams<SearchParams>
+	draftMode: DraftMode
 }) => Promise<any>
+
+type CacheArgs = {
+	enabled?: boolean
+	revalidate?: number | false | undefined
+	tags?: string[] | undefined
+	keyParts?: string[]
+}
+
+type ShouldCacheFn<
+	Params extends readonly string[] | AnyZodObject,
+	SearchParams extends readonly string[] | AnyZodObject,
+	DraftMode,
+> = (args: {
+	params: InferParams<Params>
+	searchParams: InferParams<SearchParams>
+	draftMode: DraftMode
+}) => Promise<CacheArgs>
 
 type InferLoaderData<Loader> = Loader extends (args: any) => Promise<infer T>
 	? T
 	: unknown
 
+type DraftMode = {
+	isEnabled: boolean
+}
+
 export interface CreatePageProps<
 	Params extends readonly string[] | AnyZodObject,
 	SearchParams extends readonly string[] | AnyZodObject,
-	Loader extends LoaderFn<Params, SearchParams> = LoaderFn<
+	Loader extends LoaderFn<Params, SearchParams, DraftMode> = LoaderFn<
 		Params,
-		SearchParams
+		SearchParams,
+		DraftMode
 	>,
+	ShouldCache extends ShouldCacheFn<
+		Params,
+		SearchParams,
+		DraftMode
+	> = ShouldCacheFn<Params, SearchParams, DraftMode>,
 > {
 	params?: Params
 	searchParams?: SearchParams
 	loader?: Loader
+	caching?: ShouldCache
+	allowDraft?: boolean
+
 	metadata?:
 		| Metadata
 		| ((
@@ -39,6 +76,7 @@ export interface CreatePageProps<
 					params: InferParams<Params>
 					searchParams: InferParams<SearchParams>
 					data: InferLoaderData<Loader>
+					draftMode: DraftMode
 				},
 				parent: ResolvingMetadata,
 		  ) => Promise<Metadata>)
@@ -46,6 +84,7 @@ export interface CreatePageProps<
 		params: InferParams<Params>
 		searchParams?: InferParams<SearchParams>
 		data: InferLoaderData<Loader>
+		draftMode: DraftMode
 	}>
 }
 
@@ -65,12 +104,18 @@ async function parseParams<Schema extends readonly string[] | AnyZodObject>(
 export const createPage = <
 	const Params extends readonly string[] | AnyZodObject,
 	const SearchParams extends readonly string[] | AnyZodObject,
-	Loader extends LoaderFn<Params, SearchParams> = LoaderFn<
+	Loader extends LoaderFn<Params, SearchParams, DraftMode> = LoaderFn<
 		Params,
-		SearchParams
+		SearchParams,
+		DraftMode
 	>,
+	ShouldCache extends ShouldCacheFn<
+		Params,
+		SearchParams,
+		DraftMode
+	> = ShouldCacheFn<Params, SearchParams, DraftMode>,
 >(
-	props: CreatePageProps<Params, SearchParams, Loader>,
+	props: CreatePageProps<Params, SearchParams, Loader, ShouldCache>,
 ) => {
 	const {
 		params: paramsSchema,
@@ -78,9 +123,48 @@ export const createPage = <
 		component: PageComponent,
 		loader,
 		metadata,
+		caching = () => Promise.resolve({ enabled: false } as CacheArgs),
+		allowDraft = true,
 	} = props
 
+	const runLoader = async (pageProps: {
+		params: InferParams<Params>
+		searchParams: InferParams<SearchParams>
+	}) => {
+		if (!loader)
+			return {
+				draftMode: { isEnabled: false },
+			}
+
+		const { isEnabled } = allowDraft ? await draftMode() : { isEnabled: false }
+		const previewMode = { isEnabled }
+		const props = { ...pageProps, draftMode: { isEnabled } }
+
+		const {
+			enabled = true,
+			revalidate = DEFAULT_REVALIDATE_TIME,
+			tags = undefined,
+			keyParts = undefined,
+		} = await caching(props)
+		if (enabled) {
+			console.info(`Using cached loader`)
+		}
+
+		const fn =
+			!enabled || previewMode.isEnabled
+				? loader.bind(null, props)
+				: cache(async () => loader(props), keyParts, {
+						revalidate,
+						tags,
+					})
+
+		const data = await fn()
+
+		return { draftMode: { isEnabled }, data }
+	}
+
 	// We don't really care about the types here since it's internal
+
 	async function Page(props: any) {
 		const params = await parseParams(props.params, paramsSchema)
 		const searchParams = await parseParams(
@@ -94,11 +178,12 @@ export const createPage = <
 		}
 
 		if (typeof loader === 'function') {
-			const data = await loader(pageProps)
+			const { data, draftMode } = await runLoader(pageProps)
 
 			pageProps = {
 				...pageProps,
 				data,
+				draftMode,
 			}
 		}
 
@@ -112,24 +197,31 @@ export const createPage = <
 					params,
 					searchParams,
 				}: {
-					params: InferParams<Params>
-					searchParams: InferParams<SearchParams>
+					params: Promise<InferParams<Params>>
+					searchParams: Promise<InferParams<SearchParams>>
 				},
 				parent: ResolvingMetadata,
 			) => {
-				const data =
+				const _params = await parseParams(params, paramsSchema)
+				const _searchParams = await parseParams(
+					searchParams,
+					searchParamsSchema,
+				)
+
+				const { data, draftMode } =
 					typeof loader === 'function'
-						? await loader({
-								params,
-								searchParams,
+						? await runLoader({
+								params: _params,
+								searchParams: _searchParams,
 							})
-						: undefined
+						: { draftMode: { isEnabled: false } }
 
 				return metadata(
 					{
-						params,
-						searchParams,
+						params: _params,
+						searchParams: _searchParams,
 						data,
+						draftMode,
 					},
 					parent,
 				)

@@ -1,3 +1,4 @@
+import type { InferFragmentType } from 'groqd'
 import type { Link, Prose } from '../../sanity.types'
 import { q, z } from '../lib/groqd-client'
 
@@ -82,3 +83,5 @@ export const proseFragment = q.fragment<Prose>().project((sub) => ({
 		}),
 	})),
 }))
+
+export type ProseFragment = InferFragmentType<typeof proseFragment>

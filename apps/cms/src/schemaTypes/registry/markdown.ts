@@ -8,9 +8,10 @@ export const markdown = defineType({
 	groups: [{ name: 'content', default: true }, { name: 'options' }],
 	fields: [
 		defineField({
-			name: 'value',
+			name: 'markdown',
 			type: 'text',
 			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			type: 'label',

@@ -1,3 +1,4 @@
+import type { InferFragmentType } from 'groqd'
 import type { Letters } from '../../sanity.types'
 import { q, z } from '../lib/groqd-client'
 
@@ -20,3 +21,5 @@ export const lettersFragment = q.fragment<Letters>().project((sub) => ({
 		})
 		.nullable(true),
 }))
+
+export type LettersFragment = InferFragmentType<typeof lettersFragment>

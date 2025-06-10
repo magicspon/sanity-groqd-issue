@@ -1,3 +1,4 @@
+import type { InferFragmentType } from 'groqd'
 import type { Asset, SanityImageAsset } from 'sanity.types'
 import { q, z } from '../lib/groqd-client'
 
@@ -42,3 +43,5 @@ export const assetFragment = q.fragment<Asset>().project((q2) => ({
 		},
 	}),
 }))
+
+export type AssetFragment = InferFragmentType<typeof assetFragment>

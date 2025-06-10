@@ -477,12 +477,12 @@
             "value": "markdown"
           }
         },
-        "value": {
+        "markdown": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "label": {
           "type": "objectAttribute",
