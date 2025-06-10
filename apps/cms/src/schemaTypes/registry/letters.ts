@@ -20,9 +20,14 @@ export const letters = defineType({
 			group: 'options',
 		}),
 		defineField({
-			type: 'variant',
+			type: 'string',
 			name: 'variant',
 			group: 'options',
+			description: '⚠️ Proceed with caution!',
+			options: {
+				list: ['title', 'subTitle', 'body', 'small'],
+				layout: 'dropdown',
+			},
 		}),
 		defineField({
 			type: 'meta',

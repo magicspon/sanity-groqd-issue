@@ -25,7 +25,7 @@
 		"eslint-plugin-playwright": "^2.2.0",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^5.2.0",
-		"eslint-plugin-regexp": "^2.8.0",
+		"eslint-plugin-regexp": "^2.9.0",
 		"eslint-plugin-security": "^3.0.1",
 		"eslint-plugin-tailwindcss": "^3.18.0",
 		"eslint-plugin-turbo": "^2.5.4"
@@ -34,9 +34,9 @@
 		"@next/eslint-plugin-next": "^15.3.3",
 		"@spon/typescript-config": "*",
 		"@types/eslint-config-prettier": "^6.11.3",
-		"@typescript-eslint/eslint-plugin": "^8.33.1",
-		"@typescript-eslint/utils": "^8.33.1",
-		"eslint-plugin-storybook": "^9.0.5",
-		"typescript-eslint": "^8.33.1"
+		"@typescript-eslint/eslint-plugin": "^8.34.0",
+		"@typescript-eslint/utils": "^8.34.0",
+		"eslint-plugin-storybook": "^9.0.8",
+		"typescript-eslint": "^8.34.0"
 	}
 }

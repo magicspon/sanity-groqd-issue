@@ -4,7 +4,7 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 const DEPTH = 5
 
-function createOfDepth(
+export function createOfDepth(
 	total: number,
 	of: ArrayDefinition['of'],
 ): ArrayDefinition['of'] {
@@ -30,8 +30,18 @@ function createOfDepth(
 			title: `Group (depth ${level})`,
 			groups: [{ name: 'content', default: true }, { name: 'options' }],
 			fields: [
-				defineField({ name: 'meta', type: 'meta', group: 'options' }),
 				defineField({ name: 'label', type: 'label', group: 'options' }),
+				defineField({
+					type: 'string',
+					name: 'variant',
+					group: 'options',
+					description: '⚠️ Proceed with caution!',
+					// options: {
+					// 	list: ['link', 'primary', 'secondary', 'ghost', 'outline'],
+					// 	layout: 'dropdown',
+					// },
+				}),
+				defineField({ name: 'meta', type: 'meta', group: 'options' }),
 				defineField({
 					title: 'Group',
 					name: 'group',

@@ -28,9 +28,14 @@ export const prose = defineType({
 			group: 'options',
 		}),
 		defineField({
-			type: 'variant',
+			type: 'string',
 			name: 'variant',
 			group: 'options',
+			description: '⚠️ Proceed with caution!',
+			options: {
+				list: ['cta', 'primary', 'hero', 'small'],
+				layout: 'dropdown',
+			},
 		}),
 		defineField({
 			type: 'meta',

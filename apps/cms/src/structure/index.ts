@@ -1,4 +1,4 @@
-import { CogIcon } from '@sanity/icons'
+import { CogIcon, EarthGlobeIcon } from '@sanity/icons'
 import pluralize from 'pluralize-esm'
 import type { StructureBuilder, StructureResolver } from 'sanity/structure'
 
@@ -10,10 +10,51 @@ import type { StructureBuilder, StructureResolver } from 'sanity/structure'
 
 const DISABLED_TYPES = ['settings', 'assist.instruction.context']
 
+const LANGUAGES = [
+	{ id: 'en', title: 'English' },
+	{ id: 'es', title: 'Spanish' },
+	{ id: 'fr', title: 'French' },
+	{ id: 'de', title: 'German' },
+	// Add more languages as needed
+]
+
 export const structure: StructureResolver = (S: StructureBuilder) =>
 	S.list()
 		.title('Website Content')
 		.items([
+			...LANGUAGES.map((language) =>
+				S.listItem()
+					.title(`${language.title} Content`)
+					.icon(EarthGlobeIcon)
+					.child(
+						S.list()
+							.title(`${language.title} Documents`)
+							.items([
+								...S.documentTypeListItems()
+									.filter(
+										(listItem) => !DISABLED_TYPES.includes(listItem.getId()!),
+									)
+									.map((listItem) => {
+										const schemaType = listItem.getId()
+										return S.listItem()
+											.title(pluralize(listItem.getTitle()!))
+											.child(
+												S.documentList()
+													.title(
+														`${language.title} ${pluralize(listItem.getTitle()!)}`,
+													)
+													.filter(
+														`_type == "${schemaType}" && language == "${language.id}"`,
+													)
+													.defaultOrdering([
+														{ field: '_updatedAt', direction: 'desc' },
+													]),
+											)
+									}),
+							]),
+					),
+			),
+
 			...S.documentTypeListItems()
 				// Remove the "assist.instruction.context" and "settings" content  from the list of content types
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-call

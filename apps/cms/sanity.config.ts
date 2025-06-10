@@ -5,6 +5,7 @@
 import { inlineSvgInput } from '@focus-reactive/sanity-plugin-inline-svg-input'
 import { assist } from '@sanity/assist'
 import { codeInput } from '@sanity/code-input'
+import { documentInternationalization } from '@sanity/document-internationalization'
 // import { groqdPlaygroundTool } from 'groqd-playground';
 import { defineConfig } from 'sanity'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
@@ -122,6 +123,14 @@ export default defineConfig({
 		}),
 		structureTool({
 			structure, // Custom studio structure configuration, imported from ./src/structure.ts
+		}),
+		documentInternationalization({
+			// Required configuration
+			supportedLanguages: [
+				{ id: 'es', title: 'Spanish' },
+				{ id: 'en', title: 'English' },
+			],
+			schemaTypes: ['page'],
 		}),
 		// Additional plugins for enhanced functionality
 		unsplashImageAsset(),

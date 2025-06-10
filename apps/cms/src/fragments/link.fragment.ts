@@ -5,7 +5,15 @@ export const linkFragment = q.fragment<Link>().project((sub) => ({
 	_type: z.literal('link'),
 	text: z.string().nullable(),
 	label: z.string().nullable(),
-	variant: z.string().nullable(),
+	variant: z
+		.union([
+			z.literal('link'),
+			z.literal('primary'),
+			z.literal('secondary'),
+			z.literal('ghost'),
+			z.literal('outline'),
+		])
+		.nullable(),
 	...sub.conditional({
 		'type == "email"': {
 			href: sub.field('email', z.string().email()),

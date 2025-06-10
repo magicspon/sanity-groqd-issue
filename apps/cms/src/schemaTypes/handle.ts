@@ -1,6 +1,8 @@
 import { page } from './documents/page'
 import { post } from './documents/post'
 import { asset } from './registry/asset'
+import { builder } from './registry/builder'
+// import { builder } from './registry/builder'
 import { code } from './registry/code'
 import { group } from './registry/group'
 import { label } from './registry/label'
@@ -25,8 +27,9 @@ export const schemaTypes = [
 	post,
 
 	// objects
+	// builder,
+	builder,
 	group,
-
 	// registry
 	variant,
 	label,

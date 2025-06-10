@@ -9,6 +9,7 @@
 		"url": "https://spon.io"
 	},
 	"scripts": {
+		"compile": "turbo compile --filter=@spon/cms",
 		"build": "turbo build --filter=@spon/web",
 		"analyze": "ANALYZE=true turbo build --filter=@spon/web",
 		"start": "turbo start --filter=@spon/web",
@@ -39,7 +40,7 @@
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"@turbo/gen": "^2.5.4",
 		"@types/lint-staged": "^13.3.0",
-		"@vitest/ui": "^3.2.2",
+		"@vitest/ui": "^3.2.3",
 		"commitlint": "^19.8.1",
 		"eslint": "^9.28.0",
 		"husky": "^9.1.7",
@@ -49,7 +50,7 @@
 		"prettier-plugin-tailwindcss": "^0.6.12",
 		"turbo": "^2.5.4",
 		"typescript": "^5.8.3",
-		"vitest": "^3.2.2"
+		"vitest": "^3.2.3"
 	},
 	"engines": {
 		"node": ">=22"

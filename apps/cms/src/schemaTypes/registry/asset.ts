@@ -57,7 +57,9 @@ export const asset = defineType({
 			title: 'SVG Icon',
 			type: 'inlineSvg',
 			group: 'content',
-			hidden: ({ parent }) => parent?.svg !== 'svg',
+			hidden: ({ parent }) => {
+				return parent?.type !== 'svg'
+			},
 		}),
 
 		defineField({
@@ -66,9 +68,14 @@ export const asset = defineType({
 			group: 'options',
 		}),
 		defineField({
-			type: 'variant',
+			type: 'string',
 			name: 'variant',
 			group: 'options',
+			description: '⚠️ Proceed with caution!',
+			options: {
+				list: ['natural', 'avatar', 'hero'],
+				layout: 'dropdown',
+			},
 		}),
 		defineField({
 			type: 'meta',

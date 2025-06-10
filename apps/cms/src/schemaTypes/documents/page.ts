@@ -1,4 +1,5 @@
 import { DocumentIcon } from '@sanity/icons'
+import type { SlugValidationContext } from 'sanity'
 import { defineField, defineType } from 'sanity'
 
 /**
@@ -6,12 +7,43 @@ import { defineField, defineType } from 'sanity'
  * Learn more: https://www.sanity.io/docs/schema-types
  */
 
+export async function isUniqueOtherThanLanguage(
+	slug: string,
+	context: SlugValidationContext,
+) {
+	const { document, getClient } = context
+	if (!document?.language) {
+		return true
+	}
+	const client = getClient({ apiVersion: '2023-04-24' })
+	const id = document._id.replace(/^drafts\./, '')
+	const params = {
+		id,
+		language: document.language,
+		slug,
+	}
+	const query = `!defined(*[
+    !(sanity::versionOf($id)) &&
+    slug.current == $slug &&
+    language == $language
+  ][0]._id)`
+	const result = await client.fetch(query, params)
+	return result
+}
+
 export const page = defineType({
 	name: 'page',
 	title: 'Page',
 	type: 'document',
 	icon: DocumentIcon,
 	fields: [
+		defineField({
+			// should match 'languageField' plugin configuration setting, if customized
+			name: 'language',
+			type: 'string',
+			readOnly: true,
+			hidden: true,
+		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
@@ -26,10 +58,10 @@ export const page = defineType({
 			options: {
 				source: 'title',
 				maxLength: 96,
-				isUnique: (value, context) => context.defaultIsUnique(value, context),
+				isUnique: isUniqueOtherThanLanguage,
 			},
 			validation: (rule) => rule.required(),
 		}),
-		defineField({ type: 'group', name: 'group' }),
+		defineField({ type: 'builder', name: 'blocks' }),
 	],
 })

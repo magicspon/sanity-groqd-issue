@@ -11,8 +11,10 @@ const assetImage = q.fragment<SanityImageAsset>().project((q2) => ({
 export const assetFragment = q.fragment<Asset>().project((q2) => ({
 	_type: z.literal('asset'),
 	type: z.union([z.literal('image'), z.literal('svg'), z.literal('file')]),
-	label: z.string().nullable(),
-	variant: z.string().nullable(),
+	// label: z.string().nullable(),
+	variant: z
+		.union([z.literal('natural'), z.literal('avatar'), z.literal('hero')])
+		.nullable(),
 	meta: q2
 		.field('meta')
 		.project({
