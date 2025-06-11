@@ -49,6 +49,19 @@ export function createOfDepth(
 					group: 'content',
 				}),
 			],
+
+			preview: {
+				select: {
+					label: 'label',
+					variant: 'variant',
+				},
+				prepare(value) {
+					return {
+						title: `Group (depth ${level})`,
+						description: `${value.label}, variant: ${value.variant}`,
+					}
+				},
+			},
 		})
 
 		return [...baseMembers, nestedGroupMember]

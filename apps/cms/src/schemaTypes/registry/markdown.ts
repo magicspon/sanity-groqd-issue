@@ -34,4 +34,17 @@ export const markdown = defineType({
 			group: 'options',
 		}),
 	],
+	preview: {
+		select: {
+			markdown: 'markdown',
+			label: 'label',
+			variant: 'variant',
+		},
+		prepare(value) {
+			return {
+				title: value.markdown,
+				description: `${value.label}, variant: ${value.variant}`,
+			}
+		},
+	},
 })

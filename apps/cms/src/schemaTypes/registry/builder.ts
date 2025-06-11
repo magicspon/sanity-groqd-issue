@@ -27,6 +27,19 @@ export const builder = defineType({
 					group: 'content',
 				}),
 			],
+
+			preview: {
+				select: {
+					label: 'label',
+					variant: 'variant',
+				},
+				prepare(value) {
+					return {
+						title: 'Group',
+						description: `${value.label}, variant: ${value.variant}`,
+					}
+				},
+			},
 		}),
 	],
 })

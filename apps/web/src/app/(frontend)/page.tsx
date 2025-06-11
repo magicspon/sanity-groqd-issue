@@ -3,6 +3,7 @@ import React from 'react'
 import { pageFragment } from '@spon/cms/src/fragments/page.fragment'
 import { q } from '@spon/cms/src/lib/groqd-client'
 import { getFirstOrNull } from '@spon/utils/getFirstOrNull'
+import { ComponentTree } from '~/components/ComponentTree'
 import { createPage } from '~/utils/createPage'
 import { createSanityFetcher } from '~/utils/createSanityFetcher'
 
@@ -40,7 +41,7 @@ const { Page, generateMetadata } = createPage({
 	component: async ({ data }) => {
 		console.log(data)
 
-		return <pre>{JSON.stringify(data, null, 2)}</pre>
+		return <>{data.blocks && <ComponentTree blocks={data.blocks} />}</>
 	},
 })
 

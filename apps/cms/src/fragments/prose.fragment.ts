@@ -6,7 +6,13 @@ export type ProseContent = NonNullable<Prose['value']>[number] & {
 	_type: 'content'
 }
 
-const hrefRelationFragment = q.fragment<Link>().project((p) => ({
+const proseHrefFragment = q.fragment<Link>().project((p) => ({
+	type: z.union([
+		z.literal('external'),
+		z.literal('custom'),
+		z.literal('email'),
+		z.literal('internal'),
+	]),
 	...p.conditional({
 		"type == 'external'": {
 			href: p.field('url', z.string().nullable()),
@@ -26,6 +32,8 @@ const hrefRelationFragment = q.fragment<Link>().project((p) => ({
 	}),
 }))
 
+export type ProseLinkValue = InferFragmentType<typeof proseHrefFragment>
+
 export const contentFragment = q.fragment<ProseContent>().project((p) => ({
 	_type: z.literal('content'),
 	_key: z.string(),
@@ -40,15 +48,10 @@ export const contentFragment = q.fragment<ProseContent>().project((p) => ({
 	markDefs: p
 		.field('markDefs[]')
 		.project((p1) => ({
+			_key: z.string(),
 			...p1.conditionalByType({
 				link: {
-					type: z.union([
-						z.literal('external'),
-						z.literal('internal'),
-						z.literal('email'),
-						z.literal('custom'),
-					]),
-					...hrefRelationFragment,
+					...proseHrefFragment,
 				},
 			}),
 		}))

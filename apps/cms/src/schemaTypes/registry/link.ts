@@ -145,4 +145,18 @@ export const blockLink = defineField({
 	title: 'Link',
 	groups: [{ name: 'content', default: true }, { name: 'options' }],
 	fields: [types, url, custom, email, refererence],
+	preview: {
+		select: {
+			text: 'text',
+			variant: 'variant',
+			label: 'label',
+			type: 'type',
+		},
+		prepare(value) {
+			return {
+				title: value.text,
+				description: `${value.label}, type: ${value.type}, variant: ${value.variant}`,
+			}
+		},
+	},
 })
