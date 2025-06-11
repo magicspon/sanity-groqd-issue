@@ -6,6 +6,7 @@ import { jsonFragment } from './json.fragment'
 import { lettersFragment } from './letters.fragment'
 import { linkFragment } from './link.fragment'
 import { markdownFragment } from './markdown.fragment'
+import { metaFragment } from './meta.fragment'
 import { proseFragment } from './prose.fragment'
 import { relatedFragment } from './related.fragment'
 
@@ -50,6 +51,7 @@ const d4 = q.fragment<GetTypeAtDepth<Group, 4>>().project((root) => ({
 				_key: z.string(),
 				_type: z.literal('group').nullable(),
 				variant: z.string().nullable(),
+				...metaFragment,
 				group: q.field('group[]').project({ ...d5 }),
 			}),
 	}),
@@ -69,6 +71,7 @@ const d3 = q.fragment<GetTypeAtDepth<Group, 3>>().project((root) => ({
 				_key: z.string(),
 				_type: z.literal('group').nullable(),
 				variant: z.string().nullable(),
+				...metaFragment,
 				group: q.field('group[]').project({ ...d4 }),
 			}),
 	}),
@@ -88,6 +91,7 @@ const d2 = q.fragment<GetTypeAtDepth<Group, 2>>().project((root) => ({
 				_key: z.string(),
 				_type: z.literal('group').nullable(),
 				variant: z.string().nullable(),
+				...metaFragment,
 				group: q.field('group[]').project({
 					...d3,
 				}),
@@ -109,6 +113,7 @@ const d1 = q.fragment<GetTypeAtDepth<Group, 1>>().project((root) => ({
 				_key: z.string(),
 				_type: z.literal('group').nullable(),
 				variant: z.string().nullable(),
+				...metaFragment,
 				group: q.field('group[]').project({
 					...d2,
 				}),
@@ -129,6 +134,7 @@ export const groupFragment = q.fragment<Group>().project((root) => ({
 			group1.project({
 				_key: z.string(),
 				_type: z.literal('group').nullable(),
+				...metaFragment,
 				group: group1
 					.field('group[]')
 					.project({

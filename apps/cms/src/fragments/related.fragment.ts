@@ -1,5 +1,5 @@
 import type { InferFragmentType } from 'groqd'
-import type { Related } from 'sanity.types'
+import type { Related } from '../../sanity.types'
 import { q, z } from '../lib/groqd-client'
 
 export const relatedFragment = q.fragment<Related>().project((q2) => ({

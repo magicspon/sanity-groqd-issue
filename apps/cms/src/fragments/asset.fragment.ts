@@ -1,6 +1,7 @@
 import type { InferFragmentType } from 'groqd'
-import type { Asset, SanityImageAsset } from 'sanity.types'
+import type { Asset, SanityImageAsset } from '../../sanity.types'
 import { q, z } from '../lib/groqd-client'
+import { metaFragment } from './meta.fragment'
 
 const assetImage = q.fragment<SanityImageAsset>().project((q2) => ({
 	width: q2.field('metadata.dimensions.width', z.number().nullable()),
@@ -16,12 +17,7 @@ export const assetFragment = q.fragment<Asset>().project((q2) => ({
 	variant: z
 		.union([z.literal('natural'), z.literal('avatar'), z.literal('hero')])
 		.nullable(),
-	meta: q2
-		.field('meta')
-		.project({
-			code: z.string().nullable(),
-		})
-		.nullable(true),
+	...metaFragment,
 
 	...q2.conditional({
 		'type == "svg"': {

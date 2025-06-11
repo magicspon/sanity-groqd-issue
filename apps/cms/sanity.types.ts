@@ -13,6 +13,478 @@
  */
 
 // Source: schema.json
+export type Post = {
+  _id: string
+  _type: 'post'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+}
+
+export type Settings = {
+  _id: string
+  _type: 'settings'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<{
+      href: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  ogImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    metadataBase?: string
+    _type: 'image'
+  }
+}
+
+export type Builder = Array<{
+  label?: string
+  variant?: string
+  meta?: {
+    language?: string
+    filename?: string
+    code?: string
+    highlightedLines?: Array<number>
+    _type: 'meta'
+  }
+  group?: Array<
+    | ({
+        _key: string
+      } & Letters)
+    | ({
+        _key: string
+      } & Markdown)
+    | ({
+        _key: string
+      } & Prose)
+    | ({
+        _key: string
+      } & Link)
+    | ({
+        _key: string
+      } & Asset)
+    | ({
+        _key: string
+      } & Json)
+    | ({
+        _key: string
+      } & Related)
+    | {
+        label?: string
+        variant?: string
+        meta?: {
+          language?: string
+          filename?: string
+          code?: string
+          highlightedLines?: Array<number>
+          _type: 'meta'
+        }
+        group?: Array<
+          | ({
+              _key: string
+            } & Letters)
+          | ({
+              _key: string
+            } & Markdown)
+          | ({
+              _key: string
+            } & Prose)
+          | ({
+              _key: string
+            } & Link)
+          | ({
+              _key: string
+            } & Asset)
+          | ({
+              _key: string
+            } & Json)
+          | ({
+              _key: string
+            } & Related)
+          | {
+              label?: string
+              variant?: string
+              meta?: {
+                language?: string
+                filename?: string
+                code?: string
+                highlightedLines?: Array<number>
+                _type: 'meta'
+              }
+              group?: Array<
+                | ({
+                    _key: string
+                  } & Letters)
+                | ({
+                    _key: string
+                  } & Markdown)
+                | ({
+                    _key: string
+                  } & Prose)
+                | ({
+                    _key: string
+                  } & Link)
+                | ({
+                    _key: string
+                  } & Asset)
+                | ({
+                    _key: string
+                  } & Json)
+                | ({
+                    _key: string
+                  } & Related)
+                | {
+                    label?: string
+                    variant?: string
+                    meta?: {
+                      language?: string
+                      filename?: string
+                      code?: string
+                      highlightedLines?: Array<number>
+                      _type: 'meta'
+                    }
+                    group?: Array<
+                      | ({
+                          _key: string
+                        } & Letters)
+                      | ({
+                          _key: string
+                        } & Markdown)
+                      | ({
+                          _key: string
+                        } & Prose)
+                      | ({
+                          _key: string
+                        } & Link)
+                      | ({
+                          _key: string
+                        } & Asset)
+                      | ({
+                          _key: string
+                        } & Json)
+                      | ({
+                          _key: string
+                        } & Related)
+                      | {
+                          label?: string
+                          variant?: string
+                          meta?: {
+                            language?: string
+                            filename?: string
+                            code?: string
+                            highlightedLines?: Array<number>
+                            _type: 'meta'
+                          }
+                          group?: Array<
+                            | ({
+                                _key: string
+                              } & Letters)
+                            | ({
+                                _key: string
+                              } & Markdown)
+                            | ({
+                                _key: string
+                              } & Prose)
+                            | ({
+                                _key: string
+                              } & Link)
+                            | ({
+                                _key: string
+                              } & Asset)
+                            | ({
+                                _key: string
+                              } & Json)
+                            | ({
+                                _key: string
+                              } & Related)
+                            | {
+                                label?: string
+                                variant?: string
+                                meta?: {
+                                  language?: string
+                                  filename?: string
+                                  code?: string
+                                  highlightedLines?: Array<number>
+                                  _type: 'meta'
+                                }
+                                group?: Array<
+                                  | ({
+                                      _key: string
+                                    } & Letters)
+                                  | ({
+                                      _key: string
+                                    } & Markdown)
+                                  | ({
+                                      _key: string
+                                    } & Prose)
+                                  | ({
+                                      _key: string
+                                    } & Link)
+                                  | ({
+                                      _key: string
+                                    } & Asset)
+                                  | ({
+                                      _key: string
+                                    } & Json)
+                                  | ({
+                                      _key: string
+                                    } & Related)
+                                >
+                                _type: 'group'
+                                _key: string
+                              }
+                          >
+                          _type: 'group'
+                          _key: string
+                        }
+                    >
+                    _type: 'group'
+                    _key: string
+                  }
+              >
+              _type: 'group'
+              _key: string
+            }
+        >
+        _type: 'group'
+        _key: string
+      }
+  >
+  _type: 'group'
+  _key: string
+}>
+
+export type Group = Array<
+  | ({
+      _key: string
+    } & Letters)
+  | ({
+      _key: string
+    } & Markdown)
+  | ({
+      _key: string
+    } & Prose)
+  | ({
+      _key: string
+    } & Link)
+  | ({
+      _key: string
+    } & Asset)
+  | ({
+      _key: string
+    } & Json)
+  | ({
+      _key: string
+    } & Related)
+  | {
+      label?: string
+      variant?: string
+      meta?: {
+        language?: string
+        filename?: string
+        code?: string
+        highlightedLines?: Array<number>
+        _type: 'meta'
+      }
+      group?: Array<
+        | ({
+            _key: string
+          } & Letters)
+        | ({
+            _key: string
+          } & Markdown)
+        | ({
+            _key: string
+          } & Prose)
+        | ({
+            _key: string
+          } & Link)
+        | ({
+            _key: string
+          } & Asset)
+        | ({
+            _key: string
+          } & Json)
+        | ({
+            _key: string
+          } & Related)
+        | {
+            label?: string
+            variant?: string
+            meta?: {
+              language?: string
+              filename?: string
+              code?: string
+              highlightedLines?: Array<number>
+              _type: 'meta'
+            }
+            group?: Array<
+              | ({
+                  _key: string
+                } & Letters)
+              | ({
+                  _key: string
+                } & Markdown)
+              | ({
+                  _key: string
+                } & Prose)
+              | ({
+                  _key: string
+                } & Link)
+              | ({
+                  _key: string
+                } & Asset)
+              | ({
+                  _key: string
+                } & Json)
+              | ({
+                  _key: string
+                } & Related)
+              | {
+                  label?: string
+                  variant?: string
+                  meta?: {
+                    language?: string
+                    filename?: string
+                    code?: string
+                    highlightedLines?: Array<number>
+                    _type: 'meta'
+                  }
+                  group?: Array<
+                    | ({
+                        _key: string
+                      } & Letters)
+                    | ({
+                        _key: string
+                      } & Markdown)
+                    | ({
+                        _key: string
+                      } & Prose)
+                    | ({
+                        _key: string
+                      } & Link)
+                    | ({
+                        _key: string
+                      } & Asset)
+                    | ({
+                        _key: string
+                      } & Json)
+                    | ({
+                        _key: string
+                      } & Related)
+                    | {
+                        label?: string
+                        variant?: string
+                        meta?: {
+                          language?: string
+                          filename?: string
+                          code?: string
+                          highlightedLines?: Array<number>
+                          _type: 'meta'
+                        }
+                        group?: Array<
+                          | ({
+                              _key: string
+                            } & Letters)
+                          | ({
+                              _key: string
+                            } & Markdown)
+                          | ({
+                              _key: string
+                            } & Prose)
+                          | ({
+                              _key: string
+                            } & Link)
+                          | ({
+                              _key: string
+                            } & Asset)
+                          | ({
+                              _key: string
+                            } & Json)
+                          | ({
+                              _key: string
+                            } & Related)
+                          | {
+                              label?: string
+                              variant?: string
+                              meta?: {
+                                language?: string
+                                filename?: string
+                                code?: string
+                                highlightedLines?: Array<number>
+                                _type: 'meta'
+                              }
+                              group?: Array<
+                                | ({
+                                    _key: string
+                                  } & Letters)
+                                | ({
+                                    _key: string
+                                  } & Markdown)
+                                | ({
+                                    _key: string
+                                  } & Prose)
+                                | ({
+                                    _key: string
+                                  } & Link)
+                                | ({
+                                    _key: string
+                                  } & Asset)
+                                | ({
+                                    _key: string
+                                  } & Json)
+                                | ({
+                                    _key: string
+                                  } & Related)
+                              >
+                              _type: 'group'
+                              _key: string
+                            }
+                        >
+                        _type: 'group'
+                        _key: string
+                      }
+                  >
+                  _type: 'group'
+                  _key: string
+                }
+            >
+            _type: 'group'
+            _key: string
+          }
+      >
+      _type: 'group'
+      _key: string
+    }
+>
+
 export type Related = {
   _type: 'related'
   value?: {
@@ -86,20 +558,6 @@ export type Letters = {
   }
 }
 
-export type Markdown = {
-  _type: 'markdown'
-  markdown: string
-  label?: string
-  variant?: 'title' | 'subTitle' | 'body' | 'small'
-  meta?: {
-    language?: string
-    filename?: string
-    code?: string
-    highlightedLines?: Array<number>
-    _type: 'meta'
-  }
-}
-
 export type Json = {
   _type: 'json'
   value?: Code
@@ -120,46 +578,6 @@ export type Link = {
   }
   label?: string
   variant?: 'link' | 'primary' | 'secondary' | 'ghost' | 'outline'
-}
-
-export type RichText = {
-  _type: 'richText'
-  value?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      type: 'external' | 'internal' | 'email' | 'custom'
-      url?: string
-      custom?: string
-      email?: string
-      href?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'page'
-      }
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'content'
-    _key: string
-  }>
-  label?: string
-  variant?: 'cta' | 'primary' | 'hero' | 'small'
-  meta?: {
-    language?: string
-    filename?: string
-    code?: string
-    highlightedLines?: Array<number>
-    _type: 'meta'
-  }
 }
 
 export type Prose = {
@@ -202,217 +620,13 @@ export type Prose = {
   }
 }
 
-export type Label = string
-
 export type Variant = string
 
-export type Group = Array<
-  | ({
-      _key: string
-    } & Letters)
-  | ({
-      _key: string
-    } & Markdown)
-  | ({
-      _key: string
-    } & Prose)
-  | ({
-      _key: string
-    } & Link)
-  | ({
-      _key: string
-    } & Asset)
-  | ({
-      _key: string
-    } & Json)
-  | ({
-      _key: string
-    } & Related)
-  | {
-      label?: Label
-      variant?: string
-      meta?: {
-        language?: string
-        filename?: string
-        code?: string
-        highlightedLines?: Array<number>
-        _type: 'meta'
-      }
-      group?: Array<
-        | ({
-            _key: string
-          } & Letters)
-        | ({
-            _key: string
-          } & Markdown)
-        | ({
-            _key: string
-          } & Prose)
-        | ({
-            _key: string
-          } & Link)
-        | ({
-            _key: string
-          } & Asset)
-        | ({
-            _key: string
-          } & Json)
-        | ({
-            _key: string
-          } & Related)
-        | {
-            label?: Label
-            variant?: string
-            meta?: {
-              language?: string
-              filename?: string
-              code?: string
-              highlightedLines?: Array<number>
-              _type: 'meta'
-            }
-            group?: Array<
-              | ({
-                  _key: string
-                } & Letters)
-              | ({
-                  _key: string
-                } & Markdown)
-              | ({
-                  _key: string
-                } & Prose)
-              | ({
-                  _key: string
-                } & Link)
-              | ({
-                  _key: string
-                } & Asset)
-              | ({
-                  _key: string
-                } & Json)
-              | ({
-                  _key: string
-                } & Related)
-              | {
-                  label?: Label
-                  variant?: string
-                  meta?: {
-                    language?: string
-                    filename?: string
-                    code?: string
-                    highlightedLines?: Array<number>
-                    _type: 'meta'
-                  }
-                  group?: Array<
-                    | ({
-                        _key: string
-                      } & Letters)
-                    | ({
-                        _key: string
-                      } & Markdown)
-                    | ({
-                        _key: string
-                      } & Prose)
-                    | ({
-                        _key: string
-                      } & Link)
-                    | ({
-                        _key: string
-                      } & Asset)
-                    | ({
-                        _key: string
-                      } & Json)
-                    | ({
-                        _key: string
-                      } & Related)
-                    | {
-                        label?: Label
-                        variant?: string
-                        meta?: {
-                          language?: string
-                          filename?: string
-                          code?: string
-                          highlightedLines?: Array<number>
-                          _type: 'meta'
-                        }
-                        group?: Array<
-                          | ({
-                              _key: string
-                            } & Letters)
-                          | ({
-                              _key: string
-                            } & Markdown)
-                          | ({
-                              _key: string
-                            } & Prose)
-                          | ({
-                              _key: string
-                            } & Link)
-                          | ({
-                              _key: string
-                            } & Asset)
-                          | ({
-                              _key: string
-                            } & Json)
-                          | ({
-                              _key: string
-                            } & Related)
-                          | {
-                              label?: Label
-                              variant?: string
-                              meta?: {
-                                language?: string
-                                filename?: string
-                                code?: string
-                                highlightedLines?: Array<number>
-                                _type: 'meta'
-                              }
-                              group?: Array<
-                                | ({
-                                    _key: string
-                                  } & Letters)
-                                | ({
-                                    _key: string
-                                  } & Markdown)
-                                | ({
-                                    _key: string
-                                  } & Prose)
-                                | ({
-                                    _key: string
-                                  } & Link)
-                                | ({
-                                    _key: string
-                                  } & Asset)
-                                | ({
-                                    _key: string
-                                  } & Json)
-                                | ({
-                                    _key: string
-                                  } & Related)
-                              >
-                              _type: 'group'
-                              _key: string
-                            }
-                        >
-                        _type: 'group'
-                        _key: string
-                      }
-                  >
-                  _type: 'group'
-                  _key: string
-                }
-            >
-            _type: 'group'
-            _key: string
-          }
-      >
-      _type: 'group'
-      _key: string
-    }
->
-
-export type Builder = Array<{
-  label?: Label
-  variant?: string
+export type Markdown = {
+  _type: 'markdown'
+  markdown: string
+  label?: string
+  variant?: 'title' | 'subTitle' | 'body' | 'small'
   meta?: {
     language?: string
     filename?: string
@@ -420,61 +634,9 @@ export type Builder = Array<{
     highlightedLines?: Array<number>
     _type: 'meta'
   }
-  group?: Group
-  _type: 'group'
-  _key: string
-}>
-
-export type Post = {
-  _id: string
-  _type: 'post'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title: string
-  slug: Slug
 }
 
-export type Settings = {
-  _id: string
-  _type: 'settings'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title: string
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal'
-    listItem?: never
-    markDefs?: Array<{
-      href: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
-  ogImage?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    metadataBase?: string
-    _type: 'image'
-  }
-}
+export type Label = string
 
 export type Code = {
   _type: 'code'
@@ -784,21 +946,20 @@ export type SanityAssetSourceData = {
 }
 
 export type AllSanitySchemaTypes =
+  | Post
+  | Settings
+  | Builder
+  | Group
   | Related
   | Handle
   | Asset
   | Letters
-  | Markdown
   | Json
   | Link
-  | RichText
   | Prose
-  | Label
   | Variant
-  | Group
-  | Builder
-  | Post
-  | Settings
+  | Markdown
+  | Label
   | Code
   | InlineSvg
   | SanityAssistInstructionTask

@@ -25,7 +25,7 @@ function ComponentGroupTree(props: GroupFragment & { depth: number }) {
 				.with({ _type: 'markdown' }, (p) => (
 					<>
 						<pre>{JSON.stringify(p)}</pre>
-						<div dangerouslySetInnerHTML={{ __html: p.markdown }} />
+						<div dangerouslySetInnerHTML={{ __html: p.markdown! }} />
 					</>
 				))
 				.with({ _type: 'prose' }, (p) => (
@@ -38,7 +38,6 @@ function ComponentGroupTree(props: GroupFragment & { depth: number }) {
 						<pre>{JSON.stringify(p)}</pre>
 					</>
 				))
-
 				.otherwise(() => (
 					<></>
 				))}

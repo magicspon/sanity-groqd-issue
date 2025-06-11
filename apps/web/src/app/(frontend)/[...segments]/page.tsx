@@ -16,8 +16,6 @@ const { Page, generateMetadata } = createPage({
 		const { fetcher } = await createSanityFetcher()
 		const [language, slug] = params?.segments ?? []
 
-		console.log(params)
-
 		if (!language || !slug) {
 			notFound()
 		}
@@ -52,7 +50,6 @@ const { Page, generateMetadata } = createPage({
 	},
 
 	component: async ({ data }) => {
-		console.log(data)
 		return (
 			<>
 				{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}

@@ -10,6 +10,7 @@ export const blocksFragment = q.fragment<Page>().project((sub) => ({
 			...q.conditionalByType({
 				group: (g) => ({
 					_type: z.literal('group'),
+					_key: z.string(),
 					variant: z.string().nullable(),
 					group: g
 						.field('group[]')

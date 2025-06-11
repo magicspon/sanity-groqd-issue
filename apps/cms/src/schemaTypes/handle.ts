@@ -10,7 +10,7 @@ import { letters } from './registry/letters'
 import { link } from './registry/link'
 import { markdown } from './registry/markdown'
 import { meta } from './registry/meta'
-import { prose, richText } from './registry/prose'
+import { prose } from './registry/prose'
 // import { meta } from './registry/meta'
 import { reference } from './registry/reference'
 import { slug } from './registry/slug'
@@ -20,28 +20,29 @@ import { settings } from './singletons/settings'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
 export const schemaTypes = [
+	// objects
+	// builder,
+	// registry
+	label,
+	meta,
+
+	markdown,
+	variant,
+	prose,
+	link,
+	code,
+	// markdown,
+	letters,
+	asset,
+	slug,
+	reference,
+
+	group,
+	builder,
+
 	// Singletons
 	settings,
 	// Documents
 	page,
 	post,
-
-	// objects
-	// builder,
-	builder,
-	group,
-	// registry
-	variant,
-	label,
-	meta,
-	prose,
-	richText,
-	link,
-	code,
-	markdown,
-	letters,
-	asset,
-	slug,
-	reference,
-	// meta,
 ]

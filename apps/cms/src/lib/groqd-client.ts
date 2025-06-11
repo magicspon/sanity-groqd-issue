@@ -1,7 +1,7 @@
 import { createClient } from '@sanity/client'
 import {
-	createGroqBuilder,
 	createGroqBuilderWithZod,
+	// createGroqBuilderWithZod,
 	makeSafeQueryRunner,
 } from 'groqd'
 import type * as SanityTypes from '../../sanity.types.ts'

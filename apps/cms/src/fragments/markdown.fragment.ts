@@ -1,9 +1,11 @@
+// import type { InferFragmentType } from 'groqd'
 import type { InferFragmentType } from 'groqd'
 import { marked } from 'marked'
-import type { Markdown } from 'sanity.types'
+import type { Markdown } from '../../sanity.types'
 import { q, z } from '../lib/groqd-client'
+import { metaFragment } from './meta.fragment'
 
-export const markdownFragment = q.fragment<Markdown>().project((q2) => ({
+export const markdownFragment = q.fragment<Markdown>().project(() => ({
 	markdown: z.string().transform((s) => (s ? marked.parseInline(s) : null)),
 	_type: z.literal('markdown'),
 	// label: z.string().nullable(),
@@ -16,12 +18,7 @@ export const markdownFragment = q.fragment<Markdown>().project((q2) => ({
 			z.literal('small'),
 		])
 		.nullable(),
-	meta: q2
-		.field('meta')
-		.project({
-			code: z.string().nullable(),
-		})
-		.nullable(true),
+	...metaFragment,
 }))
 
 export type MarkdownFragment = InferFragmentType<typeof markdownFragment>
